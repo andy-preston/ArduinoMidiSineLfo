@@ -1,22 +1,39 @@
-int led = 13;
-int led2 = 11;
-int onOff = LOW;
-int index = 0;
-extern int sineTable[];
+#define ledPin 13
+#define pwmPin 11
+#define potPin 0
+
+int onOff;
+int index;
+
+extern unsigned char sineTable[];
 
 void setup() {                
-  pinMode(led, OUTPUT);     
-  pinMode(led2, OUTPUT);
+  pinMode(ledPin, OUTPUT);
+  pinMode(pwmPin, OUTPUT);
+  delay(100);
+  index = 0;
+  onOff = LOW;
+}
+
+void pause() {
+    int d, knob;
+    d = 0;
+    do {
+      knob = 1 + (analogRead(potPin) / 90);
+      d = d + 1;
+      delay(1);
+    } while (d < knob);
 }
 
 void loop() {
-    analogWrite(led2, sineTable[index] * 2);
+    unsigned char v = sineTable[index];
+    analogWrite(pwmPin, v * 2);
     index = index + 1;
     if (index >= 1023) {
         index = 0;
         onOff = (onOff == HIGH) ? LOW : HIGH;
-        digitalWrite(led, onOff);
+        digitalWrite(ledPin, onOff);
     }
-    delay (1);
+    pause();
 }
 
