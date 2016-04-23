@@ -3,6 +3,7 @@ int led2 = 11;
 int brightness = 0;
 int fadeAmount = 1;
 int onOff = HIGH;
+extern int sineTable[];
 
 void setup() {                
   pinMode(led, OUTPUT);     
